@@ -1,0 +1,71 @@
+body {
+    font-family: Verdana;
+    color: #939396;
+    background-color: #1D2475;
+    background-image: url("https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/74JC/image/EhAVYQ1TMf17BNOH5txoCD4130I.jpg");
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+h1{
+    font-size: 40px;
+/*    right top*/
+    text-shadow: 3px -3px green;
+}
+
+p{
+    font-size: 80%;
+}
+
+li{
+    font-weight: bold;
+}
+
+p:first-letter{
+    font-size: 150%;
+    font-weight: bold;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+a{
+    color: #FF4F4F;
+    text-decoration:none;
+}
+
+a.underlined{
+   text-decoration:underline;
+}
+
+
+h1, h2{
+    color: #F7931E;
+}
+
+strong, em{
+    color: #FFF86B;
+}
+
+q{
+    color: #D1DFEB;
+}
+
+ul{
+    list-style-type: square;
+}
+
+table, tr, td{
+    border: dotted black;
+    border-collapse: collapse;
+}
+
+img.img{
+    outline: solid 5px;
+    outline-color: #F7931E;
+}
+
+ul, ol{
+    text-align: left;
+}
