@@ -1,0 +1,100 @@
+html{
+    background-image: url("background.png");
+    font-family: 'Vardana', 'Tahoma', 'sans-serif'
+}
+
+div .banner{
+    text-align: center;
+/*    background-image: url(rbg.png);*/
+    background-color: aliceblue;
+}
+
+h1{
+    font-size: 24pt;
+    font-weight: bold;
+    font-family: 'Vardana', 'Tahoma', 'sans-serif';
+    text-shadow: 3px 3px #999999;
+    text-align: center;
+}
+
+.overallcontent{
+    width: 800px;
+    vertical-align: middle;
+    border: 4px solid gray;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: auto;
+}
+
+.info{
+    float: right;
+    background-color: #A2B964;
+    padding-left: 10px;
+}
+
+.info dd{
+    padding-left: 20px
+}
+
+.rating{
+    color: red;
+    font-size: 48pt;
+    background-image: url(rbg.png);
+    text-align: ;
+    font-weight: bold;
+    overflow: hidden;
+/*    float: left;*/
+    line-height: 48px;
+}
+
+.rating span{
+    text-align: center;
+    vertical-align: text-top;
+}
+
+.review{
+    border: 2px solid gray;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 8px;
+    background-color: #E8DC9B;
+    margin: 8px;
+    padding: 5px;
+    
+}
+.reviewer{
+    font-family: italic;
+}
+.reviewer img{
+    float: left;
+    margin: 5px;
+}
+
+.right{
+    float: right;
+    width: 250px;
+}
+
+.right dt{
+    margin-top: 10pt;
+    font-weight: bold
+}
+
+.left{
+    float: left;
+    width: 68.7%;
+}
+
+.halfleft{
+    float: left;
+    width: 50%;
+}
+
+.halfright{
+    float: right;
+    width: 50%;
+}
+
+.right li{
+    list-style-type: none;
+}
