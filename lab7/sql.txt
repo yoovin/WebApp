@@ -1,0 +1,206 @@
+SET names utf8;
+CREATE DATABASE College;
+USE College
+
+--Q1;
+
+CREATE TABLE student(
+    student_id INT PRIMARY KEY,
+    name VARCHAR(10) NOT NULL,
+    year TINYINT NOT NULL DEFAULT 1,
+    dept_no INT NOT NULL,
+    major VARCHAR(20)
+);
+
+DESC student;
+
+CREATE TABLE department(
+    dept_no INT PRIMARY KEY AUTO_INCREMENT,
+    dept_name VARCHAR(20) NOT NULL UNIQUE,
+    office VARCHAR(20) NOT NULL,
+    office_tel VARCHAR(13)
+);
+
+DESC department;
+
+ALTER TABLE student
+    CHANGE major major VARCHAR(30);
+
+DESC student;
+
+ALTER TABLE student
+    ADD COLUMN gender BOOLEAN;
+
+DESC student;
+
+--Q2;
+ALTER TABLE student
+    DROP COLUMN gender;
+
+DESC student;
+
+/*
+ALTER TABLE student
+ADD FOREIGN KEY (dept_no) REFERENCES department(dept_no); 
+
+ALTER TABLE student
+DROP FOREIGN KEY dept_no; 
+
+ALTER TABLE student
+ADD FOREIGN KEY (major) REFERENCES department(dept_name); 
+
+ALTER TABLE student
+DROP FOREIGN KEY major; 
+*/
+
+INSERT INTO student VALUES (20070002, '송은이', 3, 4, '경영학');
+INSERT INTO student VALUES (20060001, '박미선', 4, 4, '경영학');
+INSERT INTO student VALUES (20030001, '이경규', 4, 2, '전자공학');
+INSERT INTO student VALUES (20040003, '김용만', 3, 2, '전자공학');
+INSERT INTO student VALUES (20060002, '김국진', 3, 1, '컴퓨터공학');
+INSERT INTO student VALUES (20100002, '한선화', 3, 4, '경영학');
+INSERT INTO student VALUES (20110001, '송지은', 2, 1, '컴퓨터공학');
+INSERT INTO student VALUES (20080003, '전효성', 4, 3, '법학');
+INSERT INTO student VALUES (20040002, '김구라', 4, 5, '영문학');
+INSERT INTO student VALUES (20070001, '김숙', 4, 4, '경영학');
+INSERT INTO student VALUES (20100001, '황광희', 3, 4, '경영학');
+INSERT INTO student VALUES (20110002, '권지용', 2, 1, '전자공학');
+INSERT INTO student VALUES (20030002, '김재진', 5, 1, '컴퓨터공학');
+INSERT INTO student VALUES (20070003, '신봉선', 4, 3, '법학');
+INSERT INTO student VALUES (20070005, '김신영', 2, 5, '영문학');
+INSERT INTO student VALUES (20100003, '임시환', 3, 1, '컴퓨터공학');
+INSERT INTO student VALUES (20070007, '정준하', 2, 4, '경영학');
+
+INSERT INTO department VALUES (1, '컴퓨터공학', '이학관 101호', '02-3290-0123');
+INSERT INTO department (dept_name, office, office_tel) VALUES ('전자공학', '공학관 401호', '02-3290-2345');
+INSERT INTO department (dept_name, office, office_tel) VALUES ('법학', '법학관 201호', '02-3290-7896');
+INSERT INTO department (dept_name, office, office_tel) VALUES ('경영학', '경영관 104호', '02-3290-1112');
+INSERT INTO department (dept_name, office, office_tel) VALUES ('영문학', '문화관 303호', '02-3290-4412');
+
+UPDATE department SET dept_name = '전자전기공학' WHERE dept_name LIKE '전자공학';
+UPDATE student, department SET student.major = department.dept_name WHERE student.dept_no = department.dept_no;
+
+INSERT INTO department (dept_name, office, office_tel) VALUES ('특수교육학과', '공학관 403호', '02-3290-2347');
+
+--변수 사용?;
+SET @temp:=0;
+UPDATE student
+SET
+    student.dept_no = @temp := (SELECT MAX(dept_no) FROM department),
+    student.major = (SELECT dept_name FROM department WHERE dept_no = @temp)
+WHERE student.name LIKE '송지은';
+
+DELETE FROM student WHERE name LIKE '권지용';
+
+DELETE FROM student WHERE name LIKE '김재진';
+
+--Q4;
+
+SELECT * FROM student WHERE major LIKE '컴퓨터공학';
+
+SELECT student_id, year, major FROM student;
+
+SELECT * FROM student WHERE year = 3;
+
+SELECT * FROM student WHERE year = 1 OR year = 2;
+
+SELECT s.*
+FROM student s
+JOIN department d ON s.dept_no = d.dept_no
+WHERE d.dept_name LIKE '경영학';
+--'경영학과'?;
+
+--Q5;
+
+SELECT * FROM student WHERE student_id LIKE '%2007%';
+
+SELECT * FROM student ORDER BY student_id ASC;
+
+SELECT major FROM student GROUP BY major HAVING AVG(year) > 3;
+
+SELECT * FROM student WHERE student_id LIKE '%2007%' LIMIT 2;
+
+--Q6;
+
+USE imdb
+
+SELECT role
+FROM roles r
+JOIN movies m ON r.movie_id = m.id
+WHERE m.name LIKE 'PI';
+
+SELECT first_name, last_name
+FROM actors a
+JOIN roles r ON a.id = r.actor_id
+JOIN movies m ON r.movie_id = m.id
+WHERE m.name LIKE 'PI';
+
+SELECT result1.first_name, result1.last_name
+FROM 
+(SELECT first_name, last_name
+FROM actors a
+JOIN roles r ON a.id = r.actor_id
+JOIN movies m ON r.movie_id = m.id
+WHERE m.name LIKE 'Kill Bill%1%') result1
+JOIN
+(SELECT first_name, last_name
+FROM actors a
+JOIN roles r ON a.id = r.actor_id
+JOIN movies m ON r.movie_id = m.id
+WHERE m.name LIKE 'Kill Bill%2%') result2
+ON result1.first_name = result2.first_name AND result1.last_name = result2.last_name;
+
+SELECT first_name, last_name, COUNT(actor_id)
+FROM actors a
+JOIN roles r ON a.id = r.actor_id
+JOIN movies m ON r.movie_id = m.id
+GROUP BY actor_id
+ORDER BY COUNT(actor_id) DESC
+LIMIT 7;
+
+
+SELECT genre
+FROM movies_genres g
+JOIN movies m ON g.movie_id = m.id
+GROUP BY genre
+ORDER BY COUNT(genre) DESC
+LIMIT 3;
+
+SELECT first_name, last_name
+FROM directors d
+JOIN movies_directors md ON d.id = md.director_id
+JOIN movies m ON md.movie_id = m.id
+JOIN movies_genres mg ON m.id = mg.movie_id
+WHERE mg.genre LIKE 'Thriller'
+GROUP BY d.id
+ORDER BY COUNT(d.id) DESC
+LIMIT 1;
+
+--Q7;
+
+USE simpsons
+
+SELECT s.name, g.grade
+FROM students s
+JOIN grades g ON s.id = g.student_id
+JOIN courses c ON c.id = g.course_id
+WHERE c.name LIKE 'Computer Science 143';
+
+SELECT s.name, g.grade
+FROM students s
+JOIN grades g ON s.id = g.student_id
+JOIN courses c ON c.id = g.course_id
+WHERE c.name LIKE 'Computer Science 143' AND g.grade < 'C';
+
+SELECT s.name, c.name, g.grade
+FROM students s
+JOIN grades g ON s.id = g.student_id
+JOIN courses c ON c.id = g.course_id
+WHERE g.grade < 'C';
+
+SELECT c.name
+FROM students s
+JOIN grades g ON s.id = g.student_id
+JOIN courses c ON c.id = g.course_id
+GROUP BY c.id
+HAVING COUNT(c.id) >= 2;
